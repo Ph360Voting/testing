@@ -1,0 +1,37 @@
+Ballot - a decentralized voting application
+
+address of uPort app:
+2ohq4TSxrwjCwCov4wJTsBbWWJbPvc2b6BF
+
+public key of uPort app:
+0x04c3ba1be7638bc75d74c31dbd3ad6e3bd9ee492f080f8bc84cfaab5ab079455cab40be6e6d1d07b635d307a31853c309d2af4a5ff2cee484e02b7b6234c6c2fb0
+
+
+
+'App Code' (inside it is the signing code, which is important):
+import { Connect, SimpleSigner } from 'uport-connect'
+
+    const uport = new Connect('Ballot', {
+      clientId: '2ohq4TSxrwjCwCov4wJTsBbWWJbPvc2b6BF',
+      network: 'rinkeby or ropsten or kovan',
+      signer: SimpleSigner('e379f94fcf71ef0dedccfae4f06fdb7a7274c715fa5f72604b235ccff1a2a24f')
+    })
+
+    // Request credentials to login
+    uport.requestCredentials({
+      requested: ['name', 'phone', 'country'],
+      notifications: true // We want this if we want to recieve credentials
+    })
+    .then((credentials) => {
+      // Do something
+    })
+
+    // Attest specific credentials
+    uport.attestCredentials({
+      sub: THE_RECEIVING_UPORT_ADDRESS,
+      claim: {
+        CREDENTIAL_NAME: CREDENTIAL_VALUE
+      },
+      exp: new Date().getTime() + 30 * 24 * 60 * 60 * 1000, // 30 days from now
+    })
+
